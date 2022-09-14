@@ -4,6 +4,7 @@ import {SolutionLayout} from "../ui/solution-layout/solution-layout";
 import {Input} from "../ui/input/input";
 import {Button} from "../ui/button/button";
 import {Circle} from "../ui/circle/circle";
+import {SHORT_DELAY_IN_MS} from "../../constants/delays";
 
 export const FibonacciPage: React.FC = () => {
     const [value, setValue] = useState<string>('')
@@ -40,7 +41,7 @@ export const FibonacciPage: React.FC = () => {
                 setIsLoad(false)
                 clearInterval(cycle)
             }
-        }, 500)
+        }, SHORT_DELAY_IN_MS)
     }
 
     return (

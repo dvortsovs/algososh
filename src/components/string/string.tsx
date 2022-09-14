@@ -5,18 +5,14 @@ import {Input} from "../ui/input/input";
 import {Button} from "../ui/button/button";
 import {Circle} from "../ui/circle/circle";
 import {ElementStates} from "../../types/element-states";
+import {swap} from "../../services/utils";
+import {DELAY_IN_MS} from "../../constants/delays";
 
 export const StringComponent: React.FC = () => {
     const [string, setString] = useState('')
     const [arr, setArr] = useState<string[]>([])
     const [position, setPosition] = useState([0, 0])
     const [isLoad, setIsLoad] = useState(false)
-
-    const swap = (arr: string[], firstIndex: number, secondIndex: number): void => {
-        const temp = arr[firstIndex]
-        arr[firstIndex] = arr[secondIndex]
-        arr[secondIndex] = temp
-    }
 
     const buttonHandler = (e: FormEvent) => {
         e.preventDefault()
@@ -32,7 +28,7 @@ export const StringComponent: React.FC = () => {
         let end = arr.length - 1
         setPosition([start, end])
         const recursion = setInterval(() => {
-            swap(arr, start, end)
+            swap<string>(arr, start, end)
             start++
             end--
             setArr([...arr])
@@ -41,7 +37,7 @@ export const StringComponent: React.FC = () => {
                 setIsLoad(false)
                 clearInterval(recursion)
             }
-        }, 1000)
+        }, DELAY_IN_MS)
     }
 
     return (
