@@ -46,8 +46,12 @@ export const StringComponent: React.FC = () => {
                 <form onSubmit={buttonHandler} className={styles.form}>
                     <div className={styles.input}>
                         <Input onChange={(e: ChangeEvent<HTMLInputElement>) => setString(e.target.value)} value={string}
-                               maxLength={11} isLimitText={true}/>
-                        <Button text="Развернуть" onClick={buttonHandler} isLoader={isLoad}/>
+                               maxLength={11}
+                               isLimitText={true}/>
+                        <Button disabled={string.length < 2}
+                                text="Развернуть"
+                                onClick={buttonHandler}
+                                isLoader={isLoad}/>
                     </div>
                 </form>
                 <div className={styles.string}>

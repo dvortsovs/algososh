@@ -6,7 +6,7 @@ import {Button} from "../ui/button/button";
 import {Direction} from "../../types/direction";
 import {Column} from "../ui/column/column";
 import {ElementStates} from "../../types/element-states";
-import {swap} from "../../services/utils";
+import {bubbleIterator, selectIterator} from "../../services/utils";
 import {sortType} from "../../types/sort-type";
 import {DELAY_IN_MS} from "../../constants/delays";
 
@@ -34,60 +34,6 @@ export const SortingPage: React.FC = () => {
         setChangingIndex(0)
         setCurrentIndex(0)
         done.current = []
-    }
-
-    function* selectIterator(arr: number[], direction: Direction) {
-        const sortedArr: number[] = []
-        for (let i = 0; i < arr.length; i++) {
-            let temp = arr[i]
-            let index = i
-            for (let j = i + 1; j < arr.length; j++) {
-                if (direction === Direction.Descending) {
-                    if (temp < arr[j]) {
-                        temp = arr[j]
-                        index = j
-                    }
-                } else {
-                    if (temp > arr[j]) {
-                        temp = arr[j]
-                        index = j
-                    }
-                }
-                yield {
-                    arr: arr, sortedArr: sortedArr, i, j
-                }
-            }
-            swap(arr, i, index)
-            sortedArr.push(i)
-        }
-        yield {
-            arr: arr, sortedArr: sortedArr, i: arr.length, j: arr.length
-        }
-    }
-
-    function* bubbleIterator(arr: number[], direction: Direction) {
-        const sortedArr: number[] = []
-        for (let i = arr.length - 1; i > 0; i--) {
-            for (let j = 0; j < i; j++) {
-                if (direction === Direction.Descending) {
-                    if (arr[j] < arr[j + 1]) {
-                        swap(arr, j, j + 1)
-                    }
-                } else {
-                    if (arr[j] > arr[j + 1]) {
-                        swap(arr, j, j + 1)
-                    }
-                }
-                yield {
-                    arr: arr, sortedArr: sortedArr, i: j, j: j + 1
-                }
-            }
-            sortedArr.push(i)
-        }
-        sortedArr.push(sortedArr[sortedArr.length - 1] - 1)
-        yield {
-            arr: arr, sortedArr: sortedArr, i: arr.length, j: arr.length
-        }
     }
 
     const sort = (direction: Direction, type: sortType) => {
