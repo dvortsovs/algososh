@@ -6,7 +6,7 @@ import {Button} from "../ui/button/button";
 import {Direction} from "../../types/direction";
 import {Column} from "../ui/column/column";
 import {ElementStates} from "../../types/element-states";
-import {bubbleIterator, selectIterator} from "../../services/utils";
+import {bubbleIterator, randomArray, selectIterator} from "../../services/utils";
 import {sortType} from "../../types/sort-type";
 import {DELAY_IN_MS} from "../../constants/delays";
 
@@ -25,12 +25,7 @@ export const SortingPage: React.FC = () => {
     }, [])
 
     const randomArr = () => {
-        const newArr: number[] = []
-        const len = Math.floor(Math.random() * (18 - 3) + 3)
-        for (let i = 0; i < len; i++) {
-            newArr.push(Math.floor(Math.random() * 101))
-        }
-        setArr(newArr)
+        setArr(randomArray([0, 101], [3, 18]))
         setChangingIndex(0)
         setCurrentIndex(0)
         done.current = []

@@ -82,6 +82,7 @@ export const QueuePage: React.FC = () => {
             <section className={styles.main}>
                 <form className={styles.form} onSubmit={(e) => addItem(e, value)}>
                     <Input isLimitText={true}
+                           placeholder={'Введите значение'}
                            maxLength={4}
                            onChange={(e: ChangeEvent<HTMLInputElement>) => setValue(e.target.value)}
                            value={value}/>

@@ -1,5 +1,14 @@
 import {Direction} from "../types/direction";
 
+const randomArray = (value: [number, number], count: [number, number]): number[] => {
+    const numbers: number[] = []
+    const len = Math.floor(Math.random() * (count[1] - count[0]) + count[0])
+    for (let i = 0; i < len; i++) {
+        numbers.push(Math.floor(Math.random() * (value[1] - value[0]) + value[0]))
+    }
+    return numbers
+}
+
 const swap = <T>(arr: T[], firstIndex: number, secondIndex: number): void => {
     const temp = arr[firstIndex]
     arr[firstIndex] = arr[secondIndex]
@@ -60,4 +69,4 @@ function* bubbleIterator(arr: number[], direction: Direction) {
     }
 }
 
-export {swap, selectIterator, bubbleIterator}
+export {swap, selectIterator, bubbleIterator, randomArray}
