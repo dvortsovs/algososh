@@ -296,7 +296,14 @@ export const ListPage: React.FC = () => {
                                 || deleteIndexProgress
                                 || deleteTailProgress
                             }
-                            onClick={() => addByIndex(inputValue, Number(inputIndex))}
+                            onClick={() => {
+                                if (Number(inputIndex) > listState.length) {
+                                    setInputIndex((listState.length - 1).toString())
+                                    addByIndex(inputValue, Number(listState.length - 1))
+                                } else {
+                                    addByIndex(inputValue, Number(inputIndex))
+                                }
+                            }}
                             isLoader={addIndexProgress}
                             text={'Добавить по индексу'}
                         />
@@ -310,7 +317,14 @@ export const ListPage: React.FC = () => {
                                 || deleteTailProgress
                                 || deleteHeadProgress
                             }
-                            onClick={() => deleteByIndex(Number(inputIndex))}
+                            onClick={() => {
+                                if (Number(inputIndex) > listState.length) {
+                                    setInputIndex((listState.length - 1).toString())
+                                    deleteByIndex(Number(listState.length - 1))
+                                } else {
+                                    deleteByIndex(Number(inputIndex))
+                                }
+                            }}
                             isLoader={deleteIndexProgress}
                             text={'Удалить по индексу'}
                         />
