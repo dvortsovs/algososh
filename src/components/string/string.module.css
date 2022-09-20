@@ -1,0 +1,22 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form {
+    min-width: 380px;
+    margin: 0 auto;
+    width: calc(100% - 720px);
+}
+
+.input {
+    display: flex;
+    gap: 12px;
+}
+
+.string {
+    display: flex;
+    gap: 16px;
+    margin: 120px 0 0;
+}
