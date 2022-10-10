@@ -28,6 +28,18 @@ const getReversingStringSteps = (initialString: string) => {
     return reversingSteps
 }
 
+const getFibonacciSteps = (index: number) => {
+    const fibonacciSequence: number[] = []
+    for (let i = 0; i < index + 1; i++) {
+        if (i === 0 || i === 1) {
+            fibonacciSequence.push(i)
+        } else {
+            fibonacciSequence.push(fibonacciSequence[i - 1] + fibonacciSequence[i - 2])
+        }
+    }
+    return fibonacciSequence
+}
+
 const randomArray = (value: [number, number], count: [number, number]): number[] => {
     const numbers: number[] = []
     const len = Math.floor(Math.random() * (count[1] - count[0]) + count[0])
@@ -97,4 +109,4 @@ function* bubbleIterator(arr: number[], direction: Direction) {
     }
 }
 
-export {swap, selectIterator, bubbleIterator, randomArray, getReversingStringSteps}
+export {swap, selectIterator, bubbleIterator, randomArray, getReversingStringSteps, getFibonacciSteps}

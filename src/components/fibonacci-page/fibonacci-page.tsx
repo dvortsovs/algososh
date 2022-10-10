@@ -1,15 +1,24 @@
-import React, {ChangeEvent, FormEvent, useState} from "react";
+import React, {ChangeEvent, FormEvent, useEffect, useRef, useState} from "react";
 import styles from "./fibonacci.module.css"
 import {SolutionLayout} from "../ui/solution-layout/solution-layout";
 import {Input} from "../ui/input/input";
 import {Button} from "../ui/button/button";
 import {Circle} from "../ui/circle/circle";
 import {SHORT_DELAY_IN_MS} from "../../constants/delays";
+import {getFibonacciSteps} from "../../services/utils";
 
 export const FibonacciPage: React.FC = () => {
     const [value, setValue] = useState<string>('')
     const [isLoad, setIsLoad] = useState(false)
-    const [arr, setArr] = useState<number[]>([])
+    const fibonacciSequence = useRef<number[]>([])
+    const [currentStep, setCurrentStep] = useState(0)
+    const intervalId = useRef<NodeJS.Timeout>()
+
+    useEffect(() => {
+        return () => {
+            if (intervalId.current) clearInterval(intervalId.current)
+        }
+    }, [])
 
     const buttonHandler = (e: FormEvent) => {
         e.preventDefault()
@@ -17,29 +26,18 @@ export const FibonacciPage: React.FC = () => {
         if (number < 0 || number > 19) return
         if (number === 0) return
         setIsLoad(true)
-        const copyArr: number[] = []
-        let i = 0
-        const cycle = setInterval(() => {
-            if (i <= number) {
-                if (i === 0) {
-                    copyArr.push(0)
-                    i++
-                    setArr([...copyArr])
-                } else if (i === 1) {
-                    copyArr.push(1)
-                    i++
-                    setArr([...copyArr])
-                } else {
-                    const prev = copyArr[i - 2]
-                    const curr = copyArr[i - 1]
-                    const next = prev + curr
-                    copyArr.push(next)
-                    setArr([...copyArr])
-                    i++
-                }
-            } else {
-                setIsLoad(false)
-                clearInterval(cycle)
+        fibonacciSequence.current = getFibonacciSteps(number)
+        setCurrentStep(0)
+        intervalId.current = setInterval(() => {
+            if (number > 0) {
+                setCurrentStep(currentStep => {
+                    const nextStep = currentStep + 1
+                    if (nextStep > number && intervalId.current) {
+                        setIsLoad(false)
+                        clearInterval(intervalId.current)
+                    }
+                    return nextStep
+                })
             }
         }, SHORT_DELAY_IN_MS)
     }
@@ -60,9 +58,11 @@ export const FibonacciPage: React.FC = () => {
                     </div>
                 </form>
                 <div className={styles.sequence}>
-                    {arr.map((num, index) => {
-                        const char = num.toString()
-                        return (<Circle key={index} index={index} letter={char}/>)
+                    {fibonacciSequence.current.map((num, index) => {
+                        if (index <= currentStep) {
+                            const char = num.toString()
+                            return (<Circle key={index} index={index} letter={char}/>)
+                        }
                     })}
                 </div>
             </section>
