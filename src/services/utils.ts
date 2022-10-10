@@ -1,5 +1,33 @@
 import {Direction} from "../types/direction";
 
+const cleanSwap = <T>(arr: T[], firstIndex: number, secondIndex: number): T[] => {
+    const newArr = [...arr]
+    const temp = newArr[firstIndex]
+    newArr[firstIndex] = newArr[secondIndex]
+    newArr[secondIndex] = temp
+    return newArr
+}
+
+const getReversingStringSteps = (initialString: string) => {
+    const stringArr = initialString.toUpperCase().split('')
+    const reversingSteps: string[][] = [[...stringArr]]
+
+    if (stringArr.length < 2) {
+        return reversingSteps
+    }
+
+    let start = 0
+    let end = stringArr.length - 1
+
+    while (end > start) {
+        const newStep = cleanSwap(reversingSteps[reversingSteps.length - 1], start, end)
+        reversingSteps.push(newStep)
+        start++
+        end--
+    }
+    return reversingSteps
+}
+
 const randomArray = (value: [number, number], count: [number, number]): number[] => {
     const numbers: number[] = []
     const len = Math.floor(Math.random() * (count[1] - count[0]) + count[0])
@@ -69,4 +97,4 @@ function* bubbleIterator(arr: number[], direction: Direction) {
     }
 }
 
-export {swap, selectIterator, bubbleIterator, randomArray}
+export {swap, selectIterator, bubbleIterator, randomArray, getReversingStringSteps}
