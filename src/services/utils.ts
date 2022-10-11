@@ -1,4 +1,5 @@
 import {Direction} from "../types/direction";
+import {sortType} from "../types/sort-type";
 
 const cleanSwap = <T>(arr: T[], firstIndex: number, secondIndex: number): T[] => {
     const newArr = [...arr]
@@ -109,4 +110,19 @@ function* bubbleIterator(arr: number[], direction: Direction) {
     }
 }
 
-export {swap, selectIterator, bubbleIterator, randomArray, getReversingStringSteps, getFibonacciSteps}
+const iteratorProgress = (arr: number[], direction: Direction, sortingType: sortType) => {
+    const iterator = sortingType === sortType.Select
+        ? selectIterator(arr, direction)
+        : bubbleIterator(arr, direction)
+    let step = iterator.next()
+    let done = step.done
+    let value
+    while (!done) {
+        value = step.value
+        step = iterator.next()
+        done = step.done
+    }
+    return value
+}
+
+export {swap, selectIterator, bubbleIterator, randomArray, getReversingStringSteps, getFibonacciSteps, iteratorProgress}
