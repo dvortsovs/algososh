@@ -126,7 +126,7 @@ export const ListPage: React.FC = () => {
         setDeleteTailProgress(true)
         const listStateCopy = [...listState]
         listStateCopy[listStateCopy.length - 1].deleteProgress = true
-        listStateCopy[listStateCopy.length - 1].tempItem = listStateCopy[0].item
+        listStateCopy[listStateCopy.length - 1].tempItem = listStateCopy[listStateCopy.length - 1].item
         listStateCopy[listStateCopy.length - 1].item = ''
         setListState([...listStateCopy])
         setTimeout(() => {
@@ -335,7 +335,7 @@ export const ListPage: React.FC = () => {
                         listState.map((item, index, array) => {
                             if (index === array.length - 1) {
                                 return (
-                                    <li className={styles.listItem} key={index}>
+                                    <li data-testid="listItem" className={styles.listItem} key={index}>
                                         <div className={`${item.addProgress
                                             ? `${styles.topCircle} ${styles.topCircle__visible}`
                                             : `${styles.topCircle}`}`}>
@@ -361,7 +361,7 @@ export const ListPage: React.FC = () => {
                                 )
                             }
                             return (
-                                <li className={styles.listItem} key={index}>
+                                <li data-testid="listItem" className={styles.listItem} key={index}>
                                     <div className={`${item.addProgress
                                         ? `${styles.topCircle} ${styles.topCircle__visible}`
                                         : `${styles.topCircle}`}`}>
