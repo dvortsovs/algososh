@@ -19,9 +19,13 @@ export const SortingPage: React.FC = () => {
     const [isLoadDesc, setIsLoadDesc] = useState(false)
 
     const done = useRef<number[]>([])
+    const intervalId = useRef<NodeJS.Timeout>()
 
     useEffect(() => {
         randomArr()
+        return () => {
+            if (intervalId.current) clearInterval(intervalId.current)
+        }
     }, [])
 
     const randomArr = () => {
@@ -35,7 +39,7 @@ export const SortingPage: React.FC = () => {
         direction === Direction.Descending ? setIsLoadDesc(true) : setIsLoadAsc(true)
         const sequence = type === sortType.Select ? selectIterator(arr, direction) : bubbleIterator(arr, direction)
         done.current = []
-        const cycle = setInterval(() => {
+        intervalId.current = setInterval(() => {
             let i = sequence.next()
             if (!i.done) {
                 setArr([...i.value.arr])
@@ -43,8 +47,10 @@ export const SortingPage: React.FC = () => {
                 setChangingIndex(i.value.i + 1)
                 done.current = i.value.sortedArr
             } else {
-                direction === Direction.Descending ? setIsLoadDesc(false) : setIsLoadAsc(false)
-                clearInterval(cycle)
+                if (intervalId.current) {
+                    direction === Direction.Descending ? setIsLoadDesc(false) : setIsLoadAsc(false)
+                    clearInterval(intervalId.current)
+                }
             }
         }, DELAY_IN_MS)
     }

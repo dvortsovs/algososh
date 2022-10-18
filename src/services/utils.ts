@@ -1,4 +1,45 @@
 import {Direction} from "../types/direction";
+import {sortType} from "../types/sort-type";
+
+const cleanSwap = <T>(arr: T[], firstIndex: number, secondIndex: number): T[] => {
+    const newArr = [...arr]
+    const temp = newArr[firstIndex]
+    newArr[firstIndex] = newArr[secondIndex]
+    newArr[secondIndex] = temp
+    return newArr
+}
+
+const getReversingStringSteps = (initialString: string) => {
+    const stringArr = initialString.toUpperCase().split('')
+    const reversingSteps: string[][] = [[...stringArr]]
+
+    if (stringArr.length < 2) {
+        return reversingSteps
+    }
+
+    let start = 0
+    let end = stringArr.length - 1
+
+    while (end > start) {
+        const newStep = cleanSwap(reversingSteps[reversingSteps.length - 1], start, end)
+        reversingSteps.push(newStep)
+        start++
+        end--
+    }
+    return reversingSteps
+}
+
+const getFibonacciSteps = (index: number) => {
+    const fibonacciSequence: number[] = []
+    for (let i = 0; i < index + 1; i++) {
+        if (i === 0 || i === 1) {
+            fibonacciSequence.push(i)
+        } else {
+            fibonacciSequence.push(fibonacciSequence[i - 1] + fibonacciSequence[i - 2])
+        }
+    }
+    return fibonacciSequence
+}
 
 const randomArray = (value: [number, number], count: [number, number]): number[] => {
     const numbers: number[] = []
@@ -69,4 +110,19 @@ function* bubbleIterator(arr: number[], direction: Direction) {
     }
 }
 
-export {swap, selectIterator, bubbleIterator, randomArray}
+const iteratorProgress = (arr: number[], direction: Direction, sortingType: sortType) => {
+    const iterator = sortingType === sortType.Select
+        ? selectIterator(arr, direction)
+        : bubbleIterator(arr, direction)
+    let step = iterator.next()
+    let done = step.done
+    let value
+    while (!done) {
+        value = step.value
+        step = iterator.next()
+        done = step.done
+    }
+    return value
+}
+
+export {swap, selectIterator, bubbleIterator, randomArray, getReversingStringSteps, getFibonacciSteps, iteratorProgress}
