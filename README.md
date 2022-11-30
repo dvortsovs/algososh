@@ -18,4 +18,4 @@ TypeScript, React
 Покрытие приложения unit и E2E тестами:
 Jest, Cypress
 
-<a href="https://vk.com/nikkach" target="_blank">Ссылка на GitHub Pages</a> 
+<a href="https://dvortsovs.github.io/algososh/#" target="_blank">Ссылка на GitHub Pages</a> 
